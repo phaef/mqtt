@@ -6,7 +6,7 @@ import configparser
 
 def getConfig():
     configParser = configparser.RawConfigParser()   
-    configFilePath = r'config.cfg'
+    configFilePath = r'config/configuration.txt'
     configParser.read(configFilePath)
     return configParser
 
