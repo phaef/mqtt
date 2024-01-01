@@ -17,15 +17,21 @@ pip install -r requirements.txt
 ```
 
 ## Run
-### Sender
+### Sender + Receiver
+```
+python src/main.py 
+```
+
+### Sender only
 ```
 python src/sender.py 
 ```
 
-### Receiver
+### Receiver only
 ```
 python src/receiver.py 
 ```
+
 ## Deactivate virtual environment
 The virtual enviroment can be deactivated easily by:
 ```deactivate```
