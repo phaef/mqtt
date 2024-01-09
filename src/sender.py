@@ -6,32 +6,50 @@ import configparser
 import time
 from datetime import datetime
 
+CONFIG_FILE="config/configuration.txt"
+
 def getConfig():
-    configParser = configparser.RawConfigParser()   
-    configFilePath = r'config/configuration.txt'
+    config = {}
+
+    configParser = configparser.ConfigParser()
+    configParser.optionxform = str
+    configFilePath = CONFIG_FILE
     configParser.read(configFilePath)
-    return configParser
+
+    # Iterate over the sections and options
+    for section in configParser.sections():
+        for option in configParser.options(section):
+            # Get the value of the option
+            value = configParser.get(section, option)
+
+            # Add the option and value to the config dictionary
+            config[option] = value
+    return config
 
 if __name__ == "__main__":
 
     cfg = getConfig()
 
-    TOPIC = cfg.get('MQTT', 'TOPIC')
-    BROKER_ADDRESS = cfg.get('MQTT', 'BROKER_ADDRESS')
-    PORT = cfg.getint('MQTT', 'PORT')
-    QOS = cfg.getint('MQTT', 'QOS')
+    # Map dictionary to single values
+    TOPIC = str(cfg['TOPIC'])
+    BROKER_ADDRESS = cfg['BROKER_ADDRESS']
+    PORT = int(cfg['PORT'])
+    QOS = int(cfg['QOS'])   
+    USER = cfg['USER']
+    PASSWORD = cfg['PASSWORD']
  
-    DATA = ""
+    data = ""
 
     client = mqtt.Client()
+    client.username_pw_set(USER, PASSWORD)
     client.connect(BROKER_ADDRESS, PORT)
 
-    print("Connected to MQTT Broker: " + BROKER_ADDRESS)
+    print("Connected to MQTT Broker: " + BROKER_ADDRESS + ":" + str(PORT))
 
     while True:
-        DATA = f"Current date and time: {datetime.now()}"
+        data = f"Current date and time: {datetime.now()}"
 
-        client.publish(TOPIC, DATA, qos=QOS)
+        client.publish(topic=TOPIC, payload=data, qos=QOS)
         client.loop()
 
         time.sleep(1)

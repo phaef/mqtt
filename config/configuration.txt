@@ -1,5 +1,7 @@
 [MQTT]
-TOPIC = home/tutorial/PubSubDemo123
-BROKER_ADDRESS = broker.hivemq.com
+TOPIC = text-command-topic
+BROKER_ADDRESS = 192.168.0.31
 PORT = 1883
+USER = MY_USERNAME_HERE
+PASSWORD = MY_PASSWORD_HERE
 QOS = 1
